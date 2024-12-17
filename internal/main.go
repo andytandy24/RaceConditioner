@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func MakeRequest(method string, url string, data string, headers map[string]string, cookies map[string]string) {
+func MakeRequest(method string, url string, data string, headers map[string]string, cookies map[string]string) http.Request {
 	var req *http.Request
 	var err error
 
@@ -29,13 +29,17 @@ func MakeRequest(method string, url string, data string, headers map[string]stri
 		req.AddCookie(&cookie)
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	return *req
+}
+
+func SendRequest(req http.Request) {
+	resp, err := http.DefaultClient.Do(&req)
 	if err != nil {
 		log.Fatalf("Failed to send HTTP request: %s", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		log.Fatalf("The response returned: %s", resp.Status)
+		log.Println(resp.Status)
 	}
 }
