@@ -2,8 +2,10 @@
 A tool to exploit a race condition exploit in an web application. 
 Similar syntax to curl for ease of use.
 
+**⚠️ This project is still in development ⚠️**
+
 ## NOTICE
-This tool should only be used as a CTF-tool, and should not be used against non-consenting targets.
+This tool should only be used as a CTF-tool, and should not be used against non-consenting targets. The developer of this project 
 
 ## Download
 Linux/Mac:
