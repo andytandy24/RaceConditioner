@@ -12,6 +12,7 @@ git clone https://github.com/andytandy24/RaceConditioner.git
 cd RaceConditioner
 ./setup.sh
 ```
+You might need to give the setup script permission to execute
 
 ## Before use
 If you have a local instance of the website you should first try it there with a simulated process like sleep to see if it is exploitable using this tool.
