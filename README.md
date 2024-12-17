@@ -14,6 +14,14 @@ cd RaceConditioner
 ```
 You might need to give the setup script permission to execute
 
+Windows:
+```
+git clone https://github.com/andytandy24/RaceConditioner.git
+cd RaceConditioner
+./setup.ps1
+```
+You need to restart the script for the command to work
+
 ## Before use
 If you have a local instance of the website you should first try it there with a simulated process like sleep to see if it is exploitable using this tool.
 
