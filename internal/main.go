@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func MakeRequest(method string, url string, data string, headers map[string]string) {
+func MakeRequest(method string, url string, data string, headers map[string]string, cookies map[string]string) {
 	var req *http.Request
 	var err error
 
@@ -22,6 +22,11 @@ func MakeRequest(method string, url string, data string, headers map[string]stri
 
 	for key, value := range headers {
 		req.Header.Set(key, value)
+	}
+
+	for key, value := range cookies {
+		cookie := http.Cookie{Name: key, Value: value}
+		req.AddCookie(&cookie)
 	}
 
 	resp, err := http.DefaultClient.Do(req)
