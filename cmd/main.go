@@ -3,13 +3,20 @@ package main
 import (
 	"flag"
 	"fmt"
+	"net/http"
 	"sync"
 	"time"
 
 	internal "github.com/andytandy24/internal"
 )
 
+type Response struct {
+	Time     time.Time
+	response http.Response
+}
+
 func main() {
+	var times []Response
 	var wg sync.WaitGroup
 
 	// CLI flags
@@ -24,20 +31,29 @@ func main() {
 	flag.Parse()
 	headerMap := internal.ParseHeaders(*headers)
 	cookieMap := internal.ParseHeaders(*cookie)
-
 	req := internal.MakeRequest(*method, *url, *data, headerMap, cookieMap)
-	wg.Add(*numRequests)
 
+	wg.Add(*numRequests)
+	startTime := time.Now()
 	for i := 0; i < *numRequests; i++ {
 		go func() {
 			defer wg.Done()
-			internal.SendRequest(req)
+			response := internal.SendRequest(req)
 
 			if *debug {
-				fmt.Println("Completed at:", time.Now().String())
+				times = append(times, Response{time.Now(), *response})
 			}
 		}()
 	}
-
 	wg.Wait()
+
+	if *debug {
+		for i := 0; i < len(times); i++ {
+			fmt.Println(times[i].Time, times[i].response.Status)
+		}
+		fmt.Printf("Fastest request: %dms\nSlowest request: %dms\nDiff: %dms",
+			times[0].Time.UnixMilli()-startTime.UnixMilli(),
+			times[len(times)-1].Time.UnixMilli()-startTime.UnixMilli(),
+			times[len(times)-1].Time.UnixMilli()-times[0].Time.UnixMilli())
+	}
 }

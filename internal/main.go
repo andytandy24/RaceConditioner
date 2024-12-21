@@ -32,7 +32,7 @@ func MakeRequest(method string, url string, data string, headers map[string]stri
 	return *req
 }
 
-func SendRequest(req http.Request) {
+func SendRequest(req http.Request) *http.Response {
 	resp, err := http.DefaultClient.Do(&req)
 	if err != nil {
 		log.Fatalf("Failed to send HTTP request: %s", err)
@@ -42,4 +42,6 @@ func SendRequest(req http.Request) {
 	if resp.StatusCode != http.StatusOK {
 		log.Println(resp.Status)
 	}
+
+	return resp
 }
